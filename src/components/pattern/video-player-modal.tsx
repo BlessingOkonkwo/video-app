@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const VideoPlayerModal = ({ currentVideo, open, setOpen }: IProps) => {
-  const isYouTube = currentVideo.includes("youtube.com");
+  const isYouTube = !!currentVideo && currentVideo.includes("youtube.com");
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -36,21 +36,32 @@ const VideoPlayerModal = ({ currentVideo, open, setOpen }: IProps) => {
 
         <div className="w-full max-w-3x mb-">
           <div className="aspect-w-16 aspect-h-9 aspect-video bg-black rounded-lg shadow-lg overflow-hidden">
-            {isYouTube ? (
+            {!currentVideo ? (
+              <p className="text-white flex items-center justify-center h-full">
+                No video selected
+              </p>
+            ) : isYouTube ? (
               <iframe
                 src={getAutoplayUrl(currentVideo)}
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="w-full h-full"
-              ></iframe>
-            ) : (
-              <video
-                src={currentVideo}
-                controls
-                autoPlay
-                className="w-full h-full"
               />
+            ) : (
+              <iframe
+                src={currentVideo}
+                title="Video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+              //   <video
+              //     src={currentVideo}
+              //     controls
+              //     autoPlay
+              //     className="w-full h-full"
+              //   />
             )}
           </div>
         </div>

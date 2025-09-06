@@ -4,7 +4,8 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 export type Video = {
   name: string;
   description: string;
-  url: string;
+  url?: string;
+  file?: string;
 };
 
 export type VideoContextType = {

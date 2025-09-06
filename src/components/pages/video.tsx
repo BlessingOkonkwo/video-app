@@ -15,23 +15,10 @@ const VideoPage = () => {
   //     },
   //   ]);
   const { videos, setVideos } = useVideoContext();
-  const [currentVideo, setCurrentVideo] = useState(videos[0].url);
-  const [form, setForm] = useState({ name: "", description: "", url: "" });
+  const [currentVideo, setCurrentVideo] = useState(
+    videos[0].url || videos[0].file
+  );
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!form.name || !form.description || !form.url) return;
-    setVideos([...videos, form]);
-    setCurrentVideo(form.url);
-    setForm({ name: "", description: "", url: "" });
-  };
 
   const handleDelete = (url: string) => {
     const updated = videos.filter((v) => v.url !== url);
@@ -41,9 +28,10 @@ const VideoPage = () => {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-gray-100 p-6 fle flex-col items-center">
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-end mb-6">
         <AddVideoForm
           videos={videos}
           setVideos={setVideos}
@@ -54,13 +42,30 @@ const VideoPage = () => {
       {/* Video Player */}
       <div className="w-full flex flex-col items-center">
         <div className="w-full max-w-3xl mb-6 aspect-video bg-black rounded-2xl shadow-lg overflow-hidden">
-          <iframe
+          {/* <iframe
             src={currentVideo}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="w-full h-full"
-          ></iframe>
+          ></iframe> */}
+
+          {currentVideo?.startsWith("blob:") ? (
+            <video
+              src={currentVideo}
+              controls
+              autoPlay={false} // prevent autoplay
+              className="w-full h-full"
+            />
+          ) : (
+            <iframe
+              src={currentVideo}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          )}
         </div>
       </div>
 
@@ -116,6 +121,7 @@ const VideoPage = () => {
                 description={video.description}
                 title={video.name}
                 url={video.url}
+                file={video.file}
                 handleDelete={handleDelete}
                 setCurrentVideo={setCurrentVideo}
                 setVideoPlayer={setPlayerOpen}
@@ -128,7 +134,7 @@ const VideoPage = () => {
       <VideoPlayerModal
         open={playerOpen}
         setOpen={setPlayerOpen}
-        currentVideo={currentVideo}
+        currentVideo={currentVideo!}
       />
 
       {/* Video List */}

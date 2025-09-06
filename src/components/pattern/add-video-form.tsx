@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { VideoContextType } from "@/contextApi/VideoContext";
+import { Video, VideoContextType } from "@/contextApi/VideoContext";
 import { useState } from "react";
 
 interface IProps {
@@ -22,7 +22,12 @@ const AddVideoForm = ({
   setVideos,
   setCurrentVideo,
 }: VideoContextType & IProps) => {
-  const [form, setForm] = useState({ name: "", description: "", url: "" });
+  const [form, setForm] = useState<Video>({
+    name: "",
+    description: "",
+    url: "",
+    file: "",
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,18 +35,26 @@ const AddVideoForm = ({
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setForm({ ...form, file: objectUrl, url: "" }); // clear url if uploading
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!form.name || !form.description || !form.url) return;
+    if (!form.name || !form.description || (!form.url && !form.file)) return;
     setVideos([form, ...videos]);
-    setCurrentVideo(form.url);
-    setForm({ name: "", description: "", url: "" });
+    setCurrentVideo(form.url || form.file!);
+    setForm({ name: "", description: "", url: "", file: "" });
   };
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Add New Video</Button>
+        <Button variant="outline" className="bg-blue-600 text-white w-64 h-16 text-2xl">+ Add New Video</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <form onSubmit={handleSubmit}>
@@ -80,7 +93,7 @@ const AddVideoForm = ({
 
             <div className="flex items-center space-x-2">
               <label className="text-s">Or upload file:</label>
-              <input type="file" accept="video/*"  />
+              <input type="file" accept="video/*" onChange={handleFileChange} />
             </div>
           </div>
 
