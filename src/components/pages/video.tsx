@@ -4,7 +4,6 @@ import { useVideoContext } from "@/contextApi/VideoContext";
 import React, { useState } from "react";
 import AddVideoForm from "../pattern/add-video-form";
 import VideoPlayerModal from "../pattern/video-player-modal";
-import { getAutoplayUrl } from "@/lib/utils";
 
 const VideoPage = () => {
   //   const [videos, setVideos] = useState([
@@ -16,18 +15,39 @@ const VideoPage = () => {
   //   ]);
   const { videos, setVideos } = useVideoContext();
   const [currentVideo, setCurrentVideo] = useState(
-    videos[0].url || videos[0].file
+    videos[0]?.url || videos[0]?.file
   );
   const [playerOpen, setPlayerOpen] = useState<boolean>(false);
 
-  const handleDelete = (url: string) => {
-    const updated = videos.filter((v) => v.url !== url);
+  // const handleDelete = (url?: string, file?: string) => {
+  //   if (file) {
+  //     URL.revokeObjectURL(file);
+  //   }
+
+  //   const updated = videos.filter((v) => v.url !== url && v.file !== file);
+  //   setVideos(updated);
+  //   const current = url || file;
+  //   if (currentVideo === current && updated.length > 0) {
+  //     setCurrentVideo(updated[0].url || updated[0].file!);
+  //   }
+  // };
+
+  const handleDelete = (videoPath: string) => {
+    const updated = videos.filter(
+      (v) => v.url !== videoPath && v.file !== videoPath
+    );
+
+    // revoke object URL if it's a local file
+    if (videoPath.startsWith("blob:")) {
+      URL.revokeObjectURL(videoPath);
+    }
+
     setVideos(updated);
-    if (currentVideo === url && updated.length > 0) {
-      setCurrentVideo(updated[0].url);
+
+    if (currentVideo === videoPath && updated.length > 0) {
+      setCurrentVideo(updated[0].url || updated[0].file!);
     }
   };
-
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 fle flex-col items-center">

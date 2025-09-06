@@ -1,6 +1,5 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -88,8 +87,8 @@ const AddVideoForm = ({
           + Add New Video
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
-        <form onSubmit={handleSubmit}>
+      <AlertDialogContent className="w-[95vw] max-w-lg sm:max-w-xl md:max-w-2xl max-h-[90vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <AlertDialogHeader>
             <AlertDialogTitle>Add New Video</AlertDialogTitle>
 
@@ -140,12 +139,12 @@ const AddVideoForm = ({
               )}
             </div>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
               <label className="text-s">Or upload file:</label>
               <input
                 type="file"
                 accept="video/*"
-                className="border rounded-lg p-2 shadow cursor-pointer hover:bg-accent"
+                className="border rounded-lg p-2 shadow cursor-pointer hover:bg-accent w-full sm:w-auto"
                 onChange={handleFileChange}
               />
             </div>
