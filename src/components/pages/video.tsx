@@ -76,6 +76,8 @@ const VideoPage = () => {
               controls
               autoPlay={false} // prevent autoplay
               className="w-full h-full"
+              playsInline
+              key={currentVideo}
             />
           ) : (
             <iframe

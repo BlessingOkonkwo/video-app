@@ -58,6 +58,7 @@ const VideoPlayerModal = ({ currentVideo, open, setOpen }: IProps) => {
                 autoPlay
                 className="w-full h-full"
                 playsInline
+                key={currentVideo}
               />
             )}
           </div>

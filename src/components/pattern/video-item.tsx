@@ -43,6 +43,7 @@ const VideoItem = ({
             muted
             playsInline
             controls
+            key={file}
           />
         ) : (
           <Image
