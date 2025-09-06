@@ -45,19 +45,20 @@ const VideoPlayerModal = ({ currentVideo, open, setOpen }: IProps) => {
                 className="w-full h-full"
               />
             ) : (
-              <iframe
-                src={currentVideo}
-                title="Video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              ></iframe>
-              //   <video
+              //   <iframe
               //     src={currentVideo}
-              //     controls
-              //     autoPlay
+              //     title="Video player"
+              //     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              //     allowFullScreen
               //     className="w-full h-full"
-              //   />
+              //   ></iframe>
+              <video
+                src={currentVideo}
+                controls
+                autoPlay
+                className="w-full h-full"
+                playsInline
+              />
             )}
           </div>
         </div>
