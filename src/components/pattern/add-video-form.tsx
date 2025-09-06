@@ -83,7 +83,7 @@ const AddVideoForm = ({
         <Button
           variant="outline"
           onClick={() => setOpen(true)}
-          className="bg-blue-600 text-white w-64 h-16 text-2xl hover:bg-blue-800 hover:cursor-pointer hover:text-white"
+          className="bg-red-600 text-white w-64 h-16 text-2xl hover:bg-blue-800 hover:cursor-pointer hover:text-white"
         >
           + Add New Video
         </Button>
