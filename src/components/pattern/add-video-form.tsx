@@ -54,7 +54,12 @@ const AddVideoForm = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" className="bg-blue-600 text-white w-64 h-16 text-2xl">+ Add New Video</Button>
+        <Button
+          variant="outline"
+          className="bg-blue-600 text-white w-64 h-16 text-2xl hover:bg-blue-800 hover:cursor-pointer hover:text-white"
+        >
+          + Add New Video
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <form onSubmit={handleSubmit}>
@@ -66,7 +71,7 @@ const AddVideoForm = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
 
-          <div className="grid gap-4">
+          <div className="grid gap-4 mb-4">
             <input
               type="text"
               name="name"
@@ -93,7 +98,12 @@ const AddVideoForm = ({
 
             <div className="flex items-center space-x-2">
               <label className="text-s">Or upload file:</label>
-              <input type="file" accept="video/*" onChange={handleFileChange} />
+              <input
+                type="file"
+                accept="video/*"
+                className="border rounded-lg p-2 shadow cursor-pointer hover:bg-accent"
+                onChange={handleFileChange}
+              />
             </div>
           </div>
 
